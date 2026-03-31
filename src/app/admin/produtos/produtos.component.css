@@ -1,0 +1,5 @@
+.admin-page h1 { margin-bottom: 1.5rem; }
+.page-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.filters-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.thumb { width: 50px; height: 60px; background: var(--color-black-deep); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(212, 175, 55, 0.1); }
+.thumb-suit { font-size: 1.3rem; opacity: 0.3; color: var(--color-gold); }

@@ -1,0 +1,11 @@
+.auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; background: radial-gradient(ellipse at 50% 30%, rgba(192, 57, 43, 0.1) 0%, transparent 50%), var(--color-black-deep); }
+.auth-card { width: 100%; max-width: 440px; background: var(--color-black); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--radius-xl); padding: 3rem; position: relative; overflow: hidden; }
+.auth-header { text-align: center; margin-bottom: 2.5rem; }
+.auth-logo { font-size: 3.5rem; display: block; margin-bottom: 1rem; }
+.auth-header h1 { font-size: 1.8rem; letter-spacing: 3px; }
+.auth-header p { margin-top: 0.5rem; }
+.auth-form { position: relative; z-index: 1; }
+.auth-form .form-error { text-align: center; margin-bottom: 1rem; padding: 0.75rem; background: rgba(231, 76, 60, 0.1); border-radius: var(--radius-md); border: 1px solid rgba(231, 76, 60, 0.3); }
+.auth-footer { text-align: center; margin-top: 2rem; font-size: 0.9rem; color: var(--color-text-muted); position: relative; z-index: 1; }
+.auth-decoration { position: absolute; bottom: -20px; right: -20px; display: flex; gap: 0.5rem; font-size: 5rem; opacity: 0.03; transform: rotate(-15deg); }
+.suit-bg.red { color: var(--color-red-bright); }
