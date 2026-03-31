@@ -1,7 +1,9 @@
 {
   "name": "admin-lucky021",
   "version": "0.0.0",
+  "description": "Lucky 021 - Painel de Administrador",
   "scripts": {
+
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
