@@ -12,13 +12,10 @@ export class AppwriteService {
   public readonly databaseId = environment.appwriteDatabaseId;
   public readonly bucketId = environment.appwriteBucketId;
 
-  // Collection IDs
   public readonly collections = {
     produtos: 'produtos',
     categorias: 'categorias',
-    pedidos: 'pedidos',
-    enderecos: 'enderecos',
-    avaliacoes: 'avaliacoes'
+    pedidos: 'pedidos'
   };
 
   constructor() {
@@ -31,7 +28,10 @@ export class AppwriteService {
     this.storage = new Storage(this.client);
   }
 
-  // Helper to get image URL from storage
+  getClient(): Client {
+    return this.client;
+  }
+
   getFilePreview(fileId: string, width = 400, height = 500): string {
     return `${environment.appwriteUrl}/storage/buckets/${this.bucketId}/files/${fileId}/preview?width=${width}&height=${height}&project=${environment.appwriteProject}`;
   }

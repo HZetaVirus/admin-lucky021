@@ -4,18 +4,14 @@ import { ID, Query } from 'appwrite';
 
 export interface Produto {
   $id: string;
+  $createdAt: string;
   nome: string;
   descricao: string;
   preco: number;
-  preco_promocional: number;
-  categoria_id: string;
-  imagens: string[];
-  tamanhos: string[];
-  cores: string[];
   estoque: number;
+  categoriaId: string;
+  imagens: string[];
   destaque: boolean;
-  ativo: boolean;
-  slug: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -24,15 +20,32 @@ export class ProdutoService {
 
   async listar(limit = 25, offset = 0, categoriaId?: string, busca?: string): Promise<{ documents: Produto[], total: number }> {
     const queries: string[] = [
-      Query.equal('ativo', true),
       Query.limit(limit),
       Query.offset(offset),
       Query.orderDesc('$createdAt')
     ];
 
     if (categoriaId) {
-      queries.push(Query.equal('categoria_id', categoriaId));
+      queries.push(Query.equal('categoriaId', categoriaId));
     }
+    if (busca) {
+      queries.push(Query.search('nome', busca));
+    }
+
+    const response = await this.appwrite.databases.listDocuments(
+      this.appwrite.databaseId,
+      this.appwrite.collections.produtos,
+      queries
+    );
+    return { documents: response.documents as unknown as Produto[], total: response.total };
+  }
+
+  async listarAdmin(limit = 25, offset = 0, busca?: string): Promise<{ documents: Produto[], total: number }> {
+    const queries: string[] = [
+      Query.limit(limit),
+      Query.offset(offset),
+      Query.orderDesc('$createdAt')
+    ];
     if (busca) {
       queries.push(Query.search('nome', busca));
     }
@@ -52,24 +65,6 @@ export class ProdutoService {
       id
     );
     return doc as unknown as Produto;
-  }
-
-  async getBySlug(slug: string): Promise<Produto | null> {
-    const response = await this.appwrite.databases.listDocuments(
-      this.appwrite.databaseId,
-      this.appwrite.collections.produtos,
-      [Query.equal('slug', slug), Query.limit(1)]
-    );
-    return response.documents.length > 0 ? response.documents[0] as unknown as Produto : null;
-  }
-
-  async getDestaques(): Promise<Produto[]> {
-    const response = await this.appwrite.databases.listDocuments(
-      this.appwrite.databaseId,
-      this.appwrite.collections.produtos,
-      [Query.equal('destaque', true), Query.equal('ativo', true), Query.limit(8)]
-    );
-    return response.documents as unknown as Produto[];
   }
 
   async criar(produto: Partial<Produto>): Promise<Produto> {
@@ -115,24 +110,5 @@ export class ProdutoService {
 
   getImageUrl(fileId: string, width = 400, height = 500): string {
     return this.appwrite.getFilePreview(fileId, width, height);
-  }
-
-  // Admin: listar todos (incluindo inativos)
-  async listarAdmin(limit = 10, offset = 0, busca?: string): Promise<{ documents: Produto[], total: number }> {
-    const queries: string[] = [
-      Query.limit(limit),
-      Query.offset(offset),
-      Query.orderDesc('$createdAt')
-    ];
-    if (busca) {
-      queries.push(Query.search('nome', busca));
-    }
-
-    const response = await this.appwrite.databases.listDocuments(
-      this.appwrite.databaseId,
-      this.appwrite.collections.produtos,
-      queries
-    );
-    return { documents: response.documents as unknown as Produto[], total: response.total };
   }
 }

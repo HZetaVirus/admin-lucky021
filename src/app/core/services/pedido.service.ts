@@ -4,14 +4,13 @@ import { ID, Query } from 'appwrite';
 
 export interface Pedido {
   $id: string;
-  cliente_id: string;
-  itens: string;
-  total: number;
-  status: 'pendente' | 'confirmado' | 'enviado' | 'entregue' | 'cancelado';
-  endereco_entrega: string;
-  forma_pagamento: string;
-  codigo_rastreio: string;
   $createdAt: string;
+  clienteId: string;
+  clienteNome: string;
+  valorTotal: number;
+  status: string;
+  itens: string;
+  endereco: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -28,16 +27,7 @@ export class PedidoService {
     return doc as unknown as Pedido;
   }
 
-  async listarPorCliente(clienteId: string): Promise<Pedido[]> {
-    const response = await this.appwrite.databases.listDocuments(
-      this.appwrite.databaseId,
-      this.appwrite.collections.pedidos,
-      [Query.equal('cliente_id', clienteId), Query.orderDesc('$createdAt')]
-    );
-    return response.documents as unknown as Pedido[];
-  }
-
-  async listarAdmin(limit = 10, offset = 0, status?: string): Promise<{ documents: Pedido[], total: number }> {
+  async listarAdmin(limit = 25, offset = 0, status?: string): Promise<{ documents: Pedido[], total: number }> {
     const queries: string[] = [
       Query.limit(limit),
       Query.offset(offset),
@@ -55,6 +45,15 @@ export class PedidoService {
     return { documents: response.documents as unknown as Pedido[], total: response.total };
   }
 
+  async listarPorCliente(clienteId: string): Promise<Pedido[]> {
+    const response = await this.appwrite.databases.listDocuments(
+      this.appwrite.databaseId,
+      this.appwrite.collections.pedidos,
+      [Query.equal('clienteId', clienteId), Query.orderDesc('$createdAt')]
+    );
+    return response.documents as unknown as Pedido[];
+  }
+
   async getById(id: string): Promise<Pedido> {
     const doc = await this.appwrite.databases.getDocument(
       this.appwrite.databaseId,
@@ -64,16 +63,12 @@ export class PedidoService {
     return doc as unknown as Pedido;
   }
 
-  async atualizarStatus(id: string, status: string, codigoRastreio?: string): Promise<Pedido> {
-    const data: Record<string, string> = { status };
-    if (codigoRastreio) {
-      data['codigo_rastreio'] = codigoRastreio;
-    }
+  async atualizarStatus(id: string, status: string): Promise<Pedido> {
     const doc = await this.appwrite.databases.updateDocument(
       this.appwrite.databaseId,
       this.appwrite.collections.pedidos,
       id,
-      data
+      { status }
     );
     return doc as unknown as Pedido;
   }
@@ -89,11 +84,11 @@ export class PedidoService {
     return labels[status] || status;
   }
 
-  getStatusColor(status: string): string {
+  getStatusChipColor(status: string): string {
     const colors: Record<string, string> = {
       pendente: 'gold',
       confirmado: 'green',
-      enviado: 'blue',
+      enviado: 'dark',
       entregue: 'green',
       cancelado: 'red'
     };

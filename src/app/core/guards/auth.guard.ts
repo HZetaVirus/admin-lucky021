@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { Router, type CanActivateFn } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-export const authGuard: CanActivateFn = async () => {
+export const adminGuard: CanActivateFn = async () => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
@@ -11,11 +11,10 @@ export const authGuard: CanActivateFn = async () => {
     router.navigate(['/login']);
     return false;
   }
-  return true;
-};
-
-export const adminGuard: CanActivateFn = async () => {
-  // BURLADO TEMPORARIAMENTE PARA PREVIEW DO PAINEL
+  if (user.prefs?.role !== 'admin') {
+    router.navigate(['/login']);
+    return false;
+  }
   return true;
 };
 

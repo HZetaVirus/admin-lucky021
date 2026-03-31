@@ -5,10 +5,7 @@ import { ID, Query } from 'appwrite';
 export interface Categoria {
   $id: string;
   nome: string;
-  slug: string;
-  descricao: string;
-  icone_naipe: string;
-  ativa: boolean;
+  icone: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -16,15 +13,6 @@ export class CategoriaService {
   constructor(private appwrite: AppwriteService) {}
 
   async listar(): Promise<Categoria[]> {
-    const response = await this.appwrite.databases.listDocuments(
-      this.appwrite.databaseId,
-      this.appwrite.collections.categorias,
-      [Query.equal('ativa', true), Query.orderAsc('nome')]
-    );
-    return response.documents as unknown as Categoria[];
-  }
-
-  async listarAdmin(): Promise<Categoria[]> {
     const response = await this.appwrite.databases.listDocuments(
       this.appwrite.databaseId,
       this.appwrite.collections.categorias,
