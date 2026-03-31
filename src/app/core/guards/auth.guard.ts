@@ -25,7 +25,7 @@ export const guestGuard: CanActivateFn = async () => {
 
   const user = await auth.checkSession();
   if (user) {
-    router.navigate(['/']);
+    router.navigate(['/admin']);
     return false;
   }
   return true;

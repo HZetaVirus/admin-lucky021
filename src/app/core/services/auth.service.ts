@@ -58,7 +58,7 @@ export class AuthService {
       await this.appwrite.account.deleteSession('current');
     } catch { /* ignore */ }
     this.currentUser.set(null);
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
   async updateProfile(name: string): Promise<void> {

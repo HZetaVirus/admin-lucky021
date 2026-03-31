@@ -8,7 +8,7 @@ export const routes: Routes = [
     canActivate: [guestGuard]
   },
   {
-    path: '',
+    path: 'admin',
     loadComponent: () => import('./admin/admin-layout.component').then(m => m.AdminLayoutComponent),
     canActivate: [adminGuard],
     children: [
@@ -44,6 +44,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: ''
+    redirectTo: 'admin'
   }
 ];

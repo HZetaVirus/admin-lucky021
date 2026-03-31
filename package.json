@@ -18,7 +18,7 @@
     "@angular/platform-browser": "^21.2.0",
     "@angular/platform-browser-dynamic": "^21.2.0",
     "@angular/router": "^21.2.0",
-    "appwrite": "^24.1.0",
+    "appwrite": "^16.0.2",
     "chart.js": "^4.5.1",
     "ng2-charts": "^10.0.0",
     "rxjs": "~7.8.0",
@@ -30,7 +30,7 @@
     "@angular/build": "^21.0.0",
     "@angular/cli": "^21.0.0",
     "@angular/compiler-cli": "^21.2.0",
-    "@types/node": "^18.18.0",
+    "@types/node": "^22.0.0",
     "typescript": "~5.9.0"
   }
 }
